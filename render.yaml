@@ -29,7 +29,4 @@ databases:
     region: frankfurt
 
   - name: url-shortener-redis
-    type: redis
-    plan: free
-    region: frankfurt
-    maxmemoryPolicy: noeviction
+    ipAllowList: [] 
