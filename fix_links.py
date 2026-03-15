@@ -1,10 +1,8 @@
-# fix_links.py
 import re
 
 with open('app/routers/links.py', 'r') as f:
     content = f.read()
 
-# Паттерн для поиска функций без возвращаемого типа
 pattern = r'(async def (\w+)\([^)]*\):\s*\n\s+""")'
 matches = re.findall(pattern, content)
 
@@ -12,7 +10,6 @@ for match in matches:
     func_name = match[1]
     print(f"Найдена функция без возвращаемого типа: {func_name}")
     
-    # Здесь нужно определить правильный возвращаемый тип для каждой функции
     return_types = {
         'create_short_link': ' -> schemas.LinkResponse',
         'redirect_to_original': ' -> RedirectResponse',

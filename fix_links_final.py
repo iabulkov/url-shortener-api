@@ -1,11 +1,9 @@
-# fix_links_final.py
 import re
 
 def fix_file(filename):
     with open(filename, 'r') as f:
         content = f.read()
     
-    # Словарь функций и их возвращаемых типов
     return_types = {
         'create_short_link': ' -> schemas.LinkResponse',
         'redirect_to_original': ' -> RedirectResponse',
@@ -21,7 +19,6 @@ def fix_file(filename):
     
     changes = 0
     for func_name, return_type in return_types.items():
-        # Ищем объявление функции без возвращаемого типа
         pattern = rf'(async def {func_name}\([^)]*\):)'
         replacement = rf'\1{return_type}:'
         
@@ -29,14 +26,14 @@ def fix_file(filename):
         if count > 0:
             changes += count
             content = new_content
-            print(f"✅ Исправлена функция: {func_name}")
+            print(f"Исправлена функция: {func_name}")
     
     if changes > 0:
         with open(filename, 'w') as f:
             f.write(content)
         print(f"\n✨ Внесено изменений: {changes}")
     else:
-        print("❌ Ничего не изменено")
+        print("Ничего не изменено")
     
     return changes
 
