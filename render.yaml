@@ -1,0 +1,35 @@
+services:
+  - type: web
+    name: url-shortener-api
+    runtime: python
+    repo: https://github.com/iabulkov/url-shortener-api
+    plan: free
+    region: frankfurt
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /links/test
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: url-shortener-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: url-shortener-redis
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+
+databases:
+  - name: url-shortener-db
+    databaseName: url_shortener
+    user: url_shortener_user
+    plan: free
+    region: frankfurt
+
+redis:
+  - name: url-shortener-redis
+    plan: free
+    region: frankfurt
+    maxmemoryPolicy: noeviction
