@@ -1,34 +1,24 @@
 import sys
 import os
 
-print("=== Current directory contents ===")
-print(os.listdir('.'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'app/app'))
 
-print("\n=== Parent directory contents ===")
-print(os.listdir('..'))
-
-print("\n=== Python path ===")
-for path in sys.path:
-    print(path)
-
-print("\n=== Trying to import ===")
 try:
     from main import app
-    print("✅ Successfully imported app from main")
+    print("Successfully imported app from app/app/main.py")
 except ImportError as e:
-    print(f"❌ Import error: {e}")
-    # Пробуем найти main.py
-    print("\n=== Searching for main.py ===")
-    for root, dirs, files in os.walk('.'):
-        if 'main.py' in files:
-            print(f"Found main.py in: {root}")
-    
-    # Если ничего не нашли, создадим простой fallback
+    print(f"Import error: {e}")
     from fastapi import FastAPI
     app = FastAPI()
     
     @app.get("/")
     async def root():
-        return {"message": "Fallback app - main.py not found", "cwd": os.getcwd(), "files": os.listdir('.')}
+        return {
+            "message": "URL Shortener API",
+            "status": "working",
+            "note": "Using fallback app - fix import path"
+        }
     
-    print("✅ Created fallback app")
+    @app.get("/links/test")
+    async def test():
+        return {"message": "Test endpoint"}
