@@ -1,0 +1,9 @@
+
+# Temporary and auxiliary files
+*.pyc
+__pycache__/
+*.backup
+*.old
+fix_*.py
+venv/
+.env
