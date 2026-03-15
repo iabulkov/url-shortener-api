@@ -28,8 +28,8 @@ databases:
     plan: free
     region: frankfurt
 
-redis:
   - name: url-shortener-redis
+    type: redis
     plan: free
     region: frankfurt
     maxmemoryPolicy: noeviction
